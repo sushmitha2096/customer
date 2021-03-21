@@ -38,7 +38,7 @@
           </div></div>
 
           <div class="form-control my-4 text-center">
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" id="register" class="btn btn-primary">Register</button>
         </div>
         </form>
       </div>
@@ -51,7 +51,8 @@
 $('#registerform').submit(function (e) {
     //alert("hi");
 			e.preventDefault();
-            var user_name= $("#user_name").val();
+      $("#register").html("<i class='fa fa-spinner fa-spin'></i>");
+      var user_name= $("#user_name").val();
 			var email= $("#email").val();
       var phone= $("#phone").val();
 			
@@ -68,6 +69,7 @@ token = $('meta[name="csrf-token"]').attr('content');
                 processData: false,
 				success: function (resp) {					
 					if (resp.http_code == 400) {
+            $("#register").html("Register");
 						err_msg = resp.message.replace(/, \\n /g, '<br>');
 						toastr.error(err_msg);
 					} else if (resp.http_code == 200) {
@@ -75,10 +77,12 @@ token = $('meta[name="csrf-token"]').attr('content');
 						var loc = '{{ url('login')}}';
 						$(location).attr('href', loc);
 					} else if (resp.http_code == 401) {
+            $("#register").html("Register");
 						toastr.warning(resp.message);
 						var login = '{{ url('iam/login')}}';
 						$(location).attr('href', login);
 					} else if (resp.http_code == 500) {
+            $("#register").html("Register");
 						toastr.warning(resp.message);
 					}
 				},error: function (err) {}

@@ -15,7 +15,7 @@
 
          
           <div class="form-control my-4 text-center">
-            <button class="btn btn-primary">Login</button>
+            <button class="btn btn-primary" id= "logi">Login</button>
         </div>
         </form>
       </div>
@@ -27,6 +27,7 @@
 
 $('#loginform').submit(function (e) {
 			e.preventDefault();
+			$("#login").html("<i class='fa fa-spinner fa-spin'></i>");
             var otp= $("#otp").val();
 	
 			url = '{{url('login/user')}}';
@@ -41,6 +42,7 @@ token = $('meta[name="csrf-token"]').attr('content');
                 processData: false,
 				success: function (resp) {					
 					if (resp.http_code == 400) {
+						$("#login").html("Login");
 						err_msg = resp.message.replace(/, \\n /g, '<br>');
 						toastr.error(err_msg);
 					} else if (resp.http_code == 200) {
@@ -48,10 +50,12 @@ token = $('meta[name="csrf-token"]').attr('content');
 						var loc = '{{ url('dashboard')}}';
 						$(location).attr('href', loc);
 					} else if (resp.http_code == 401) {
+						$("#login").html("Login");
 						toastr.warning(resp.message);
 						var login = '{{ url('login')}}';
 						$(location).attr('href', login);
 					} else if (resp.http_code == 500) {
+						$("#login").html("Login");
 						toastr.warning(resp.message);
 					}
 				},error: function (err) {}
