@@ -26,8 +26,17 @@
               <input type="text" name="phone" id="phone" maxlength="10" placeholder="Phone" class="form-control">
             </div>
           </div>
-          
-          
+
+          <div class="control-group">
+          </br>
+            <div class="form-group floating-label-form-group controls">
+          @if(config('services.recaptcha.key'))
+            <div class="g-recaptcha" 
+                data-sitekey="{{config('services.recaptcha.key')}}">
+            </div>
+         @endif
+          </div></div>
+
           <div class="form-control my-4 text-center">
             <button type="submit" class="btn btn-primary">Register</button>
         </div>
@@ -44,7 +53,7 @@ $('#registerform').submit(function (e) {
 			e.preventDefault();
             var user_name= $("#user_name").val();
 			var email= $("#email").val();
-            var phone= $("#phone").val();
+      var phone= $("#phone").val();
 			
 			//data = new FormData(this);
 			url = '{{url('store/user')}}';
@@ -52,7 +61,7 @@ token = $('meta[name="csrf-token"]').attr('content');
 			$.ajax({
 				url: url,
 				headers: {'X-CSRF-TOKEN': token},
-                data:"user_name="+user_name+"&email="+email+'&phone='+phone,
+                data:"user_name="+user_name+"&email="+email+'&phone='+phone+"&g-recaptcha-response="+grecaptcha. getResponse(),
 				//data:data,
 				type: 'POST',
 				datatype: 'json',

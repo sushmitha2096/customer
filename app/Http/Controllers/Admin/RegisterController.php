@@ -35,7 +35,8 @@ class RegisterController extends Controller
             $rules = [
                 'user_name' => ['required'],
                 'email' => ['required','unique:users,email'],
-                'phone' => ['required','min:10','unique:users,phone']
+                'phone' => ['required','min:10','unique:users,phone'],
+                'g-recaptcha-response' => ['required','recaptcha']
             ];
             
             $validator = app('validator')->make($input, $rules);
