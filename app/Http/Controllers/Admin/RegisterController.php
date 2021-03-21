@@ -53,7 +53,7 @@ class RegisterController extends Controller
             $data['user_name'] = $input['user_name'];
             $data['email'] = $input['email'];
             $data['phone'] = $input['phone'];
-            $data['unique_code'] = rand (10,100000);
+            $data['unique_code'] = rand (0,100000);
             $data['otp'] = rand (0,999999);
 
              $user_id = Customer::register('users',$data);
